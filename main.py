@@ -1,27 +1,11 @@
-import os
-from support import *
-
-
-# Models
-from models.user import User
-from models.post import Post
-from models.comment import Comment
+import webapp2
 
 # Controls
 from controllers.control import BlogHandler
 from controllers.blogfront import BlogFront
-from controllers.signup import SignUp
-from controllers.login import LogIn
-from controllers.logout import LogOut
-from controllers.post import PostPage
-from controllers.newpost import NewPost
-from controllers.editpost import EditPost
-from controllers.deletepost import DeletePost
-from controllers.addcomment import AddComment
-from controllers.editcomment import EditComment
-from controllers.deletecomment import DeleteComment
-from controllers.likepost import Like
-from controllers.unlikepost import Unlike
+from controllers.login import LogIn, SignUp, LogOut
+from controllers.post import PostPage, DeletePost, EditPost, Like, NewPost, Unlike 
+from controllers.comment import AddComment, DeleteComment, EditComment
 
 
 app = webapp2.WSGIApplication([('/', BlogFront),

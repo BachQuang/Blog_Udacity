@@ -1,6 +1,5 @@
 import os
 import re
-import webapp2
 import jinja2
 from string import letters
 from google.appengine.ext import db

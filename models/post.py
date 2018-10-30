@@ -1,6 +1,9 @@
+import time
 from google.appengine.ext import db
-from support import render_str
 
+from controllers.control import BlogHandler
+
+from support import blog_key, render_str
 class Post(db.Model):
     subject = db.StringProperty(required=True)
     content = db.TextProperty(required=True)

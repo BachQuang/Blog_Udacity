@@ -1,6 +1,8 @@
 from google.appengine.ext import db
-from support import comment_key, render_str
+
 from post import Post
+
+from support import comment_key, render_str
 
 
 class Comment(db.Model):
@@ -22,5 +24,5 @@ class Comment(db.Model):
         return ('owner=%s content=%s' % (self.owner, self.content))
 
     @classmethod
-    def get_by_id(cls, uid):
+    def capture_by_id(cls, uid):
         return Comment.get_by_id(uid, parent=comment_key())

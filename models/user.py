@@ -1,4 +1,5 @@
 from google.appengine.ext import db
+
 from support import users_key, make_pw_hash, valid_pw
 
 class User(db.Model):
