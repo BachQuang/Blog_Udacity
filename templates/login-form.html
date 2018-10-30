@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <h2>Login</h2>
+    <form method="post" class="container">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-3">Username</div>
+          <div class="col-md-8">
+              <input type="text" name="username" value="{{username}}">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            Password
+          </div>
+          <div class="col-md-8">
+            <input type="password" name="password" value="">
+          </div>
+        </div>
+      </div>
+
+      <div class="error" class="row">
+        {{error}}
+      </div>
+
+      <input type="submit" class="row">
+    </form>
+  </body>
+  {% endblock %}

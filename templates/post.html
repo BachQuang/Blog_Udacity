@@ -1,0 +1,69 @@
+<div class="post">
+  <div class="post-heading">
+    <div class="post-title">
+      {% if link_to_self %}
+      <a href={{"./blog/" + p.id}}>{{p.subject}}</a>
+      {%else%}
+      <span class="post-title">{{p.subject}}</span>
+      {% endif %}
+      <span>by {{p.owner}}</span>
+    </div>
+
+    <div class="post-date">
+      {{p.created.strftime("%b %d, %Y")}}
+    </div>
+  </div>
+
+  <div class="post-content">
+    <p class="post-content">
+      {{p._render_text | safe}}
+    </p>
+  
+  <form method="get">
+    <a href={{"/blog/edit/" + p.id}}><span class="glyphicon glyphicon-pencil"></span> Edit post</a>
+    <a href={{"/blog/delete/" + p.id}}><span class="glyphicon glyphicon-trash"></span> Delete post</a>
+    <br>
+    <a href={{"/blog/like/" + p.id}}><span class="glyphicon glyphicon-thumbs-up"></span> Like {{likes}}</span></a>
+    <br>
+    <a href={{"/blog/unlike/" + p.id}}><span class="glyphicon glyphicon-thumbs-down"></span> Unlike {{unlikes}}</a>
+  </form>
+  <br>
+  <br>
+  <h2>Comments</h2>
+  <div class="comments-container">
+
+
+  {% if p.post_comments %}
+    {% for c in p.post_comments.order('-created') %}
+      <p class="comment">
+        <span>
+          <span class="name">{{c.owner}}</span>{{' commented "' ~ c.content ~ '"'}}
+
+          <a href={{'/blog/' + p.id + '/comment/delete/' ~ c.key().id()}}>
+            Delete          
+          </a>
+          <a href={{'/blog/' + p.id + '/comment/edit/' ~ c.key().id()}}>
+            Edit
+          </a>
+
+        </span>
+      </p>
+    {% endfor %}
+  {% else %}
+    <p>There doesn't seem to be any comments here</p>
+  {% endif %}
+  </div>
+  <br>
+  <br>
+  <form method="post" action={{"/blog/" + p.id + "/comment/new"}}>
+
+    <label>
+      <div>Leave a comment</div>
+      <textarea name="content" class="comment">{{content}}</textarea>
+    </label>
+    <div class="error">{{error}}</div>
+
+    <input type="submit" value="Comment" style="font-size: 14px;">
+  </form>
+  </div>
+</div>

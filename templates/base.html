@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="/static/main.css" />
+  <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.css" />
+  <title>VOZ Forums</title>
+</head>
+
+<body>
+<div class="container">
+  <div class="login-area">
+    {% if user %}
+      Hi, {{user.name}} <a class="login-link" href="/logout"><button>logout</button></a>
+      <br>
+      <br>
+      <a href="/blog/newpost"><button>Create a new post</button></a>
+    {% else %}
+      <a class="login-link" href="/login"><button>login</button></a>
+      OR <a class="login-link" href="/signup"><button>signup</button></a>
+    {% endif %}
+  </div>
+
+  <p class="main-title-p">
+    <a href="/blog" class="main-title">
+      Voz Forum
+    </a>
+  </p>
+
+  <div id="content">
+  {% block content %}
+  {% endblock %}
+  </div>
+  </div>
+</body>
+
+</html>
+

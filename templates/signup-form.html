@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+    <link type="text/css" rel="stylesheet" href="/static/forms.css" />
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <h2>Signup</h2>
+    <p>
+      To really use this site, you need to be logged in with us!
+      <br>
+      <br>
+      Already have an account? <a href="/login">Click here to login</a>
+    </p>
+    <form method="post" class="container">
+      <div class="row">
+        <div>
+          <div class="label">
+            Username
+          </div>
+          <div>
+            <input type="text" name="username" value="{{username}}">
+          </div>
+          <div class="error">
+            {{error_username}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label">
+            Password
+          </div>
+          <div>
+            <input type="password" name="password" value="">
+          </div>
+          <div class="error">
+            {{error_password}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label">
+            Verify Password
+          </div>
+          <div>
+            <input type="password" name="verify" value="">
+          </div>
+          <div class="error">
+            {{error_verify}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label">
+            Email (optional)
+          </div>
+          <div>
+            <input type="text" name="email" value="{{email}}">
+          </div>
+          <div class="error">
+            {{error_email}}
+          </div>
+        </div>
+      </div>
+
+      <input type="submit">
+    </form>
+{% endblock %}
