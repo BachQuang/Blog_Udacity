@@ -24,104 +24,111 @@ class DeletePost(BlogHandler):
     def get(self, post_id):
         # Get logged in user
         user = self.validate_user("/signup-form.html")
-        username = user.name
+        if user:
+            username = user.name
 
-        # Get post by post_id
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-        owner = post.owner
-        if owner != username:
-            self.render("error.html", error="No, way")
-            return
+            # Get post by post_id
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+            owner = post.owner
+            if owner != username:
+                self.render("error.html", error="No, way")
+                return
 
-        if not post:
-            self.error(404)
-            return
-        # Check  owner
-        owner = post.owner
-        self.render(
-            'delete-post.html',
-            content="Do you want to delete your post?",
-            post_id=post_id)
+            if not post:
+                self.error(404)
+                return
+            # Check  owner
+            owner = post.owner
+            self.render(
+                'delete-post.html',
+                content="Do you want to delete your post?",
+                post_id=post_id)
 
     def post(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-        post.delete()
-        time.sleep(0.3)
-        self.redirect("/blog")
+        user = self.validate_user("/signup-form.html")
+        if user:
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+            post.delete()
+            time.sleep(0.3)
+            self.redirect("/blog")
 
 
 class EditPost(BlogHandler):
     def get(self, post_id):
         # Get logged in user
         user = self.validate_user("/signup-form.html")
-        username = user.name
+        if user:
+            username = user.name
 
-        # Get post by post_id
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
+            # Get post by post_id
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
 
-        # Get post.owner
-        owner = post.owner
-        if owner != username:
-            self.render("error.html", error="you cannot edit this post")
-            return
+            # Get post.owner
+            owner = post.owner
+            if owner != username:
+                self.render("error.html", error="you cannot edit this post")
+                return
 
-        if not post:
-            self.error(404)
-            return
-        self.render(
-            'edit-post.html',
-            subject=post.subject,
-            content=post.content,
-            error="")
+            if not post:
+                self.error(404)
+                return
+            self.render(
+                'edit-post.html',
+                subject=post.subject,
+                content=post.content,
+                error="")
 
     def post(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-        post.subject = self.request.get('subject')
-        post.content = self.request.get('content')
-        post.put()
+        user = self.validate_user("/signup-form.html")
+        if user:
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+            post.subject = self.request.get('subject')
+            post.content = self.request.get('content')
+            post.put()
 
-        self.redirect("/blog/" + post_id)
+            self.redirect("/blog/" + post_id)
 
 
 class Like(BlogHandler):
     def get(self, post_id):
         # Get logged in user
         user = self.validate_user("/signup-form.html")
-        username = user.name
+        if user:
+            username = user.name
 
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
 
-        # Get post.owner
-        owner = post.owner
+            # Get post.owner
+            owner = post.owner
 
-        # Get post.likes
-        likes = str(post.user_likes)
-        unlikes = str(post.user_unlikes)
+            # Get post.likes
+            likes = str(post.user_likes)
+            unlikes = str(post.user_unlikes)
 
-        # if False:
-        if owner == username:
-            self.render("error.html", error="you can't like")
-            return
-        # Check user against post.likes
-        elif username in likes:
-            True
-        else:
+            # if False:
+            if owner == username:
+                self.render("error.html", error="you can't like")
+                return
             # Check user against post.likes
-            if username in unlikes:
-                unlikes = unlikes.replace("|%s" % username, "")
+            elif username in likes:
+                True
+            else:
+                # Check user against post.likes
+                if username in unlikes:
+                    unlikes = unlikes.replace("|%s" % username, "")
 
-            # Add user to post.likes
-            likes = "|" + username
-            post.user_likes = post.user_likes + likes
-            post.user_unlikes = unlikes
-            #post.subject = "Changed man"
-            post.put()
-        self.redirect("/blog/" + post_id)
+                # Add user to post.likes
+                likes = "|" + username
+                post.user_likes = post.user_likes + likes
+                post.user_unlikes = unlikes
+                #post.subject = "Changed man"
+                post.put()
+            self.redirect("/blog/" + post_id)
 
 
 class NewPost(BlogHandler):
@@ -162,34 +169,35 @@ class Unlike(BlogHandler):
     def get(self, post_id):
         # Get logged in user
         user = self.validate_user("/signup-form.html")
-        username = user.name
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
+        if user:
+            username = user.name
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
 
-        # Get post.owner
-        owner = post.owner
+            # Get post.owner
+            owner = post.owner
 
-        # Get post.likes
-        likes = str(post.user_likes)
-        unlikes = str(post.user_unlikes)
+            # Get post.likes
+            likes = str(post.user_likes)
+            unlikes = str(post.user_unlikes)
 
-        # Check user against owner
-        # if False:
-        if owner == username:
-            self.render("error.html", error="you can't unlike")
-            return
-        # Check user against post.likes
-        elif username in unlikes:
-            False
-        else:
+            # Check user against owner
+            # if False:
+            if owner == username:
+                self.render("error.html", error="you can't unlike")
+                return
             # Check user against post.likes
-            if username in likes:
-                likes = likes.replace("|%s" % username, "")
+            elif username in unlikes:
+                False
+            else:
+                # Check user against post.likes
+                if username in likes:
+                    likes = likes.replace("|%s" % username, "")
 
-            # Add user to post.likes
-            unlikes = "|" + username
-            post.user_unlikes += unlikes
-            post.user_likes = likes
-            #post.subject = "Changed man"
-            post.put()
-        self.redirect("/blog/" + post_id)
+                # Add user to post.likes
+                unlikes = "|" + username
+                post.user_unlikes += unlikes
+                post.user_likes = likes
+                #post.subject = "Changed man"
+                post.put()
+            self.redirect("/blog/" + post_id)
